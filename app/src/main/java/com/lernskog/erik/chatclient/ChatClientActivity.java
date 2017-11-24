@@ -11,13 +11,14 @@ import android.widget.TextView;
 public class ChatClientActivity extends Activity implements View.OnClickListener{
     public static final String TAG = "ChatClientActivity";
     private TextView chatlog;
-    private EditText message;
+    public EditText message;
     private EditText username;
     private EditText host;
     private EditText port;
     private Button send;
     private Button connect;
     private Button disconnect;
+    private ChatClientThread chat_client_thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,12 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
         // print("onClick " + v.toString());
         if (v == send) {
            print("send");
+            chat_client_thread.send("Hallabaloo");
         } else if (v == connect) {
             print("connect");
+            chat_client_thread = new ChatClientThread(this, host.getText().toString(), Integer.parseInt(port.getText().toString()), username.getText().toString());
+            chat_client_thread.start();
+
         } else if (v == disconnect) {
             print("disconnect");
         }

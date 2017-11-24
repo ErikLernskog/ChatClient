@@ -36,10 +36,11 @@
 
     <EditText
         android:id="@+id/port"
-        android:hint="Port"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2001"/>
+        android:hint="Port"
+        android:inputType="number"
+        android:text="2001" />
 
     <Button
         android:id="@+id/send"
