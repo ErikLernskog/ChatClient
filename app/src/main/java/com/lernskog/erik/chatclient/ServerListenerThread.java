@@ -1,20 +1,22 @@
 package com.lernskog.erik.chatclient;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ServerListenerThread extends Thread {
-    private Boolean listen;
+    public Boolean keepreadline = true;
     private ChatClientActivity chatClientActivity;
 
     public ServerListenerThread(ChatClientActivity chatClientActivity) {
         this.chatClientActivity = chatClientActivity;
-        this.listen = true;
+    }
+
+    public void stop_readline() {
+        keepreadline = false;
     }
 
     public void run() {
         try {
-            while (listen) {
+            while (keepreadline) {
                 String line_from_server = chatClientActivity.from_server.readLine();
                 if (line_from_server == null) {
                     chatClientActivity.print("Nothing to read from server.");
@@ -22,14 +24,10 @@ public class ServerListenerThread extends Thread {
                     chatClientActivity.print(line_from_server);
                 }
             }
-            chatClientActivity.from_server.close();
-            chatClientActivity.from_server = null;
+            chatClientActivity.print("ServerListenerThread stoped");
         } catch (IOException e) {
+            chatClientActivity.print("IOException (Socket) " + e.getMessage());
             e.printStackTrace();
         }
-    }
-    public void disconnect()
-    {
-        listen = false;
     }
 }

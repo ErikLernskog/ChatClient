@@ -55,7 +55,6 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        // print("onClick " + v.toString());
         String hostStr = host.getText().toString();
         int portInt = Integer.parseInt(port.getText().toString());
         String usernameStr = username.getText().toString();
@@ -63,26 +62,26 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
         if (v == login) {
             print("login");
             messageStr = "LOGIN " + usernameStr;
-            chat_client_thread = new ChatClientThread(this, hostStr, portInt, usernameStr, messageStr);
+            chat_client_thread = new ChatClientThread(this, hostStr, portInt, messageStr);
             chat_client_thread.start();
         } else if (v == logout) {
             print("logout");
             messageStr = "LOGOUT";
-            chat_client_thread = new ChatClientThread(this, hostStr, portInt, usernameStr, messageStr);
+            chat_client_thread = new ChatClientThread(this, hostStr, portInt, messageStr);
             chat_client_thread.start();
         } else if (v == send) {
             print("send");
-            chat_client_thread = new ChatClientThread(this, hostStr, portInt, usernameStr, messageStr);
+            chat_client_thread = new ChatClientThread(this, hostStr, portInt, messageStr);
             chat_client_thread.start();
         } else if (v == connect) {
             print("connect");
             messageStr = "CONNECT";
-            chat_client_thread = new ChatClientThread(this, hostStr, portInt, usernameStr, messageStr);
+            chat_client_thread = new ChatClientThread(this, hostStr, portInt, messageStr);
             chat_client_thread.start();
         } else if (v == disconnect) {
             print("disconnect");
             messageStr = "DISCONNECT";
-            chat_client_thread = new ChatClientThread(this, hostStr, portInt, usernameStr, messageStr);
+            chat_client_thread = new ChatClientThread(this, hostStr, portInt, messageStr);
             chat_client_thread.start();
         }
     }

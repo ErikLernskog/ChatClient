@@ -9,13 +9,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:isScrollContainer="true"
+        android:scrollIndicators="top|bottom|left|right|start|end"
+        android:scrollbars="horizontal|vertical">
 
-    <TextView
-        android:id="@+id/chatlog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="chatlog" />
+        <TextView
+            android:id="@+id/chatlog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollHorizontally="true"
+            android:hint="chatlog" />
     </ScrollView>
 
     <EditText

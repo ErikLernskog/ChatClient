@@ -10,27 +10,18 @@ import java.net.Socket;
 
 public class ChatClientThread extends Thread {
     private ChatClientActivity chatClientActivity;
-    private Socket socket;
-    private String username;
-    private PrintWriter to_server;
     private String message;
     private String host;
     private int port;
 
-    public ChatClientThread(ChatClientActivity chatClientActivity, String host, int port, String username, String message) {
+    public ChatClientThread(ChatClientActivity chatClientActivity, String host, int port, String message) {
         this.chatClientActivity = chatClientActivity;
         this.host = host;
         this.port = port;
-        this.username = username;
         this.message = message;
     }
 
     public void run() {
-
-        //if (chatClientActivity.socket != null && chatClientActivity.socket.isConnected()){
-        //    chatClientActivity.print("socket connected");
-        //}
-        //chatClientActivity.print(chatClientActivity.socket.toString());
         try {
             if (message == "CONNECT") {
                 chatClientActivity.socket = new Socket(host, port);
@@ -39,38 +30,38 @@ public class ChatClientThread extends Thread {
                 chatClientActivity.from_server = new BufferedReader(new InputStreamReader(chatClientActivity.socket.getInputStream()));
                 chatClientActivity.serverListenerThread = new ServerListenerThread(chatClientActivity);
                 chatClientActivity.serverListenerThread.start();
-            }
-            else if (message == "DISCONNECT")
-            {
-                if (chatClientActivity.socket != null) {
-                    Boolean isConnected = chatClientActivity.socket.isConnected();
-                    chatClientActivity.print("isConnected " + isConnected);
+            } else if (message == "DISCONNECT") {
+                chatClientActivity.print("close start");
+                if (chatClientActivity.from_server != null) {
+                    chatClientActivity.serverListenerThread.keepreadline = false;
                     chatClientActivity.from_server.close();
-                    chatClientActivity.to_server.close();
-                    chatClientActivity.socket.close();
-                    //if (chatClientActivity.to_server != null)
-                    //{
-                    //    chatClientActivity.print("close to_server");
-                    //    chatClientActivity.to_server.close();
-                    //    chatClientActivity.to_server.
-                    //}
-                    //chatClientActivity.serverListenerThread.disconnect();
-                    //chatClientActivity.socket.close();
-                    //chatClientActivity.to_server = null;
-                    //chatClientActivity.socket = null;
+                    chatClientActivity.print("from server closed");
                 }
-            }
-            else if (message != "") {
+                if (chatClientActivity.to_server != null) {
+                    chatClientActivity.to_server.close();
+                    chatClientActivity.print("to_server closed");
+                }
+                chatClientActivity.print("close done");
+            } else if (message == "LOGOUT") {
+                chatClientActivity.print("logout start");
+                if (chatClientActivity.from_server != null) {
+                    chatClientActivity.serverListenerThread.keepreadline = false;
+                    chatClientActivity.print("from server stop keep read line");
+                }
+                if (chatClientActivity.to_server != null) {
+                    chatClientActivity.print(message);
+                    chatClientActivity.to_server.println(message);
+                }
+                if (chatClientActivity.from_server != null) {
+                    chatClientActivity.from_server.close();
+                    chatClientActivity.print("from server closed");
+                }
+                chatClientActivity.print("logout done");
+
+            } else if (chatClientActivity.to_server != null) {
                 chatClientActivity.print(message);
                 chatClientActivity.to_server.println(message);
             }
-            //chatClientActivity.print("LOGIN " + username);
-            //to_server.println("LOGIN " + username);
-            //chatClientActivity.print("Say Hello");
-            //to_server.println("Hello");
-            //to_server.close();
-            //from_server.close();
-            //socket.close();
         } catch (IOException e) {
             chatClientActivity.print("IOException (Socket) " + e.getMessage());
             e.printStackTrace();
