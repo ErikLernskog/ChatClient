@@ -9,13 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ChatClientActivity extends Activity implements View.OnClickListener {
     public static final String TAG = "ChatClientActivity";
     public EditText message;
+    public ServerListenerThread serverListenerThread;
+    public Socket socket;
+    public PrintWriter to_server;
+    public BufferedReader from_server;
     private TextView chatlog;
     private EditText username;
     private EditText host;
@@ -26,10 +29,6 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
     private Button connect;
     private Button disconnect;
     private ChatClientThread chat_client_thread;
-    public ServerListenerThread serverListenerThread;
-    public Socket socket;
-    public PrintWriter to_server;
-    public BufferedReader from_server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,7 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
         chatlog.post(new Runnable() {
             @Override
             public void run() {
-                chatlog.setText(chatlog.getText() + message + "\n");
+                chatlog.setText(message + "\n" + chatlog.getText());
             }
         });
     }

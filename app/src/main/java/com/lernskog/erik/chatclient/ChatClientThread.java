@@ -52,10 +52,6 @@ public class ChatClientThread extends Thread {
                     chatClientActivity.print(message);
                     chatClientActivity.to_server.println(message);
                 }
-                if (chatClientActivity.from_server != null) {
-                    chatClientActivity.from_server.close();
-                    chatClientActivity.print("from server closed");
-                }
                 chatClientActivity.print("logout done");
 
             } else if (chatClientActivity.to_server != null) {
