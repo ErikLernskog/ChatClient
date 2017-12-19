@@ -28,7 +28,6 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
     private Button logout;
     private Button connect;
     private Button disconnect;
-    private ChatClientThread chat_client_thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +53,7 @@ public class ChatClientActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        ChatClientThread chat_client_thread;
         String hostStr = host.getText().toString();
         int portInt = Integer.parseInt(port.getText().toString());
         String usernameStr = username.getText().toString();

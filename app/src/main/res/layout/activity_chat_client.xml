@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Host"
-        android:text="192.168.0.240" />
+        android:text="basen.oru.se" />
 
     <EditText
         android:id="@+id/port"
